@@ -10,21 +10,23 @@ public:
 	std::unordered_set<Person*> FriendList = {};
 
 	void Create(std::string PersonName, int age);
-	void CreateFriends(Person FirstPerson, Person SecondPerson);
+	void CreateFriends(Person* PersonToAdd);
 	void InsertToSet(Person* FriendName)
 	{
 		FriendList.insert(FriendName);
 	}
 };
 
-void Person::Create(std::string PersonName, int age)
+void Person::Create(std::string PersonName, int aage)
 {
-
+	name = PersonName;
+	age = aage;
 }
 
-void Person::CreateFriends(Person PersonToAdd)
+void Person::CreateFriends(Person* PersonToAdd)
 {
-	FriendList.insert(PersonToAdd);
+	
+	InsertToSet(PersonToAdd);
 }
 
 
@@ -56,8 +58,16 @@ int main()
 			std::cin >> Age;
 			Person friendOfNewPerson;
 			friendOfNewPerson.Create(Name, Age);
-			newPerson.CreateFriends(friendOfNewPerson);
-			friendOfNewPerson.CreateFriends(newPerson);
+			Person* ptrToFriend = &friendOfNewPerson;
+			Person* ptrToPerson = &newPerson;
+			newPerson.CreateFriends(ptrToFriend);
+			friendOfNewPerson.CreateFriends(ptrToPerson);
+			for (auto it = newPerson.FriendList.begin(); it != newPerson.FriendList.end(); ++it)
+			{
+				std::cout << *it << std::endl;
+			}
+			getchar();
+			std::cin >> Age;
 		}
 	}
 }
